@@ -35,20 +35,20 @@ exports.tag = function(){
 exports.push = function(){
 	return exec('git push')
 		.then(function(){
-			git.pushTags('origin')
+			return git.pushTags('origin')
 		})
 		.then(function(){
 			console.log('[' + version + '] pushed');
 		});
 };
 
-exports.checkout = function(branch){
-	if(branch){
-		return git
-			.checkout(branch)
-			.pull('origin', branch)
-			.then(function(out){
-				console.log(out);
-			})
-	}
+exports.merge = function(branch){
+	return git.checkout('master')
+		.pull('origin', 'master')
+		.then(function(){
+			return exec('git merge ' + branch)
+				.then(function(){
+					return git.push('origin', 'master');
+				})
+		});
 };
