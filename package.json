@@ -1,0 +1,23 @@
+{
+  "name": "releaser",
+  "version": "0.0.0",
+  "description": "Module for release project",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daniymilner/releaser.git"
+  },
+  "author": "Aleksey Olenyuk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/daniymilner/releaser/issues"
+  },
+  "bin": {
+    "release": "./release.js"
+  },
+  "homepage": "https://github.com/daniymilner/releaser#readme",
+  "dependencies": {
+    "commander": "^2.8.1",
+    "multiline": "^1.0.2"
+  }
+}
