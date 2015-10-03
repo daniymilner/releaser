@@ -26,11 +26,14 @@ exports.bump = function(manifest, type){
 };
 
 exports.tag = function(){
-	exec('git add .')
+	return exec('git add .')
 		.then(function(){
 			return exec('git commit -m "release ' + version + ' "');
 		}, logError)
 		.then(function(){
 			return exec('git tag ' + version);
+		}, logError)
+		.then(function(){
+			console.log('Tag created');
 		}, logError)
 };

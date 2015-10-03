@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 var program = require('commander'),
-	api = require('./index');
+	api = require('./index'),
+	lock = false;
 
 program
 	.version(require('./package').version)
@@ -13,14 +14,23 @@ program
 	program.option('--' + type, '[type] - increase ' + type + ' version');
 
 	program.on(type, function(){
-		setTimeout(function(){
-			api.manifests().forEach(function(manifest){
-				api.bump(manifest, type);
-			});
-			if(program.tag){
-				api.tag();
-			}
-		}, 0);
+		if(!lock){
+			lock = true;
+
+			setTimeout(function(){
+				api.manifests().forEach(function(manifest){
+					api.bump(manifest, type);
+				});
+				if(program.tag){
+					api.tag()
+						.then(function(){
+							lock = false;
+						});
+				}else{
+					lock = false;
+				}
+			}, 0);
+		}
 	});
 });
 
