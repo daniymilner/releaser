@@ -34,6 +34,15 @@ exports.tag = function(){
 			return exec('git tag ' + version);
 		}, logError)
 		.then(function(){
-			console.log('Tag created');
+			console.log('[' + version + '] created');
+		}, logError)
+};
+
+exports.push = function(){
+	return exec('git push && git push origin --tags')
+		.then(function(out){
+			if(out){
+				console.log(out.stdout);
+			}
 		}, logError)
 };

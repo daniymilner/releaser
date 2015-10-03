@@ -4,6 +4,10 @@ var program = require('commander'),
 	api = require('./index'),
 	lock = false;
 
+function lockOff(){
+	lock = false;
+}
+
 program
 	.version(require('./package').version)
 	.usage('[type] [options]')
@@ -24,10 +28,17 @@ program
 				if(program.tag){
 					api.tag()
 						.then(function(){
-							lock = false;
-						});
+							if(program.push){
+								api.push()
+									.then(lockOff)
+									.catch(lockOff)
+							}else{
+								lockOff();
+							}
+						})
+						.catch(lockOff);
 				}else{
-					lock = false;
+					lockOff();
 				}
 			}, 0);
 		}
