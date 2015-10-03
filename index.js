@@ -1,14 +1,11 @@
 var semver = require('semver'),
 	exec = require('child-process-promise').exec,
 	cwd = process.cwd(),
+	git = require('simple-git')(cwd),
 	fs = require('fs'),
 	indent = require('detect-indent'),
 	utils = require('./utils'),
 	version;
-
-function logError(err){
-	console.log(err);
-}
 
 exports.manifests = function(){
 	return ['package.json', 'bower.json'].filter(function(manifest){
@@ -26,23 +23,32 @@ exports.bump = function(manifest, type){
 };
 
 exports.tag = function(){
-	return exec('git add .')
-		.then(function(){
-			return exec('git commit -m "release ' + version + ' "');
-		}, logError)
-		.then(function(){
-			return exec('git tag ' + version);
-		}, logError)
+	return git
+		.add(exports.manifests())
+		.commit('release ' + version)
+		.addTag(version)
 		.then(function(){
 			console.log('[' + version + '] created');
-		}, logError)
+		})
 };
 
 exports.push = function(){
-	return exec('git push && git push origin --tags')
-		.then(function(out){
-			if(out){
-				console.log(out.stdout);
-			}
-		}, logError)
+	return exec('git push')
+		.then(function(){
+			git.pushTags('origin')
+		})
+		.then(function(){
+			console.log('[' + version + '] pushed');
+		});
+};
+
+exports.checkout = function(branch){
+	if(branch){
+		return git
+			.checkout(branch)
+			.pull('origin', branch)
+			.then(function(out){
+				console.log(out);
+			})
+	}
 };

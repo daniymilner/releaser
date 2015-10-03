@@ -40,6 +40,7 @@ program
 				}else{
 					lockOff();
 				}
+				//api.checkout('test');
 			}, 0);
 		}
 	});
