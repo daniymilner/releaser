@@ -1,2 +1,2 @@
-# releaser
+# Releaser
 Module for release project
