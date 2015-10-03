@@ -1,22 +1,22 @@
 #!/usr/bin/env node
 
 var program = require('commander'),
-	multiline = require('multiline');
+	api = require('./index');
 
 program
 	.version(require('./package').version)
-	.usage('[options]')
-	.option('--no-tags', 'Do not create git tag')
-	.option('--push', 'Push to remote repo');
+	.usage('[type] [options]');
 
-program.on('--help', function(){
-	console.log(multiline(function(){/*
-	 Usage:
+['major', 'minor', 'patch'].forEach(function(type){
+	program.option('--' + type, 'increase ' + type + ' version');
 
-	 $ bump --patch
-	 $ bump --patch --no-tags
-	 $ bump --info
-	 */}));
+	program.on(type, function(){
+		setTimeout(function(){
+			api.manifests().forEach(function(manifest){
+				api.bump(manifest, type);
+			});
+		}, 0);
+	});
 });
 
 program.parse(process.argv);
