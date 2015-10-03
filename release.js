@@ -5,16 +5,21 @@ var program = require('commander'),
 
 program
 	.version(require('./package').version)
-	.usage('[type] [options]');
+	.usage('[type] [options]')
+	.option('--tag', '[option] - create tag with new version')
+	.option('--push', '[option] - push changes to current branch');
 
 ['major', 'minor', 'patch'].forEach(function(type){
-	program.option('--' + type, 'increase ' + type + ' version');
+	program.option('--' + type, '[type] - increase ' + type + ' version');
 
 	program.on(type, function(){
 		setTimeout(function(){
 			api.manifests().forEach(function(manifest){
 				api.bump(manifest, type);
 			});
+			if(program.tag){
+				api.tag();
+			}
 		}, 0);
 	});
 });

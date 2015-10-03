@@ -3,7 +3,12 @@ var semver = require('semver'),
 	cwd = process.cwd(),
 	fs = require('fs'),
 	indent = require('detect-indent'),
-	utils = require('./utils');
+	utils = require('./utils'),
+	version;
+
+function logError(err){
+	console.log(err);
+}
 
 exports.manifests = function(){
 	return ['package.json', 'bower.json'].filter(function(manifest){
@@ -15,8 +20,17 @@ exports.bump = function(manifest, type){
 	var pkg = cwd + '/' + manifest,
 		current = utils.readJSON(pkg),
 		usedIndent;
-	current.version = semver.inc(current.version, type);
+	version = current.version = semver.inc(current.version, type);
 	usedIndent = indent(utils.readFileSync(pkg)) || '  ';
-	console.log(usedIndent);
 	utils.writeJSON(pkg, current, usedIndent.indent);
+};
+
+exports.tag = function(){
+	exec('git add .')
+		.then(function(){
+			return exec('git commit -m "release ' + version + ' "');
+		}, logError)
+		.then(function(){
+			return exec('git tag ' + version);
+		}, logError)
 };
