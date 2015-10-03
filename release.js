@@ -1,3 +1,5 @@
+#!/usr/bin/env
+
 var program = require('commander'),
 	multiline = require('multiline');
 
