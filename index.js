@@ -18,5 +18,5 @@ exports.bump = function(manifest, type){
 	current.version = semver.inc(current.version, type);
 	usedIndent = indent(utils.readFileSync(pkg)) || '  ';
 	console.log(usedIndent);
-	utils.writeJSON(pkg, current, usedIndent);
+	utils.writeJSON(pkg, current, usedIndent.indent);
 };
