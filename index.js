@@ -49,6 +49,8 @@ exports.merge = function(branch){
 			return exec('git merge ' + branch)
 				.then(function(){
 					return git.push('origin', 'master');
+				}, function(err){
+					console.log(err);
 				})
 		});
 };

@@ -34,7 +34,7 @@ program
 							if(program.push){
 								api.push()
 									.then(function(){
-										if(program.master && typeof minimist['master'] !== 'string'){
+										if(program.master && minimist['master'] && typeof minimist['master'] !== 'string'){
 											branch = minimist['master'];
 											api
 												.merge(branch)
