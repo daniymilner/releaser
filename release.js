@@ -31,12 +31,10 @@ program
 							if(program.push){
 								api.push()
 									.then(lockOff)
-									.catch(lockOff)
 							}else{
 								lockOff();
 							}
 						})
-						.catch(lockOff);
 				}else{
 					lockOff();
 				}
