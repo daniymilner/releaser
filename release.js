@@ -6,16 +6,12 @@ var program = require('commander'),
 	lock = false,
 	branch;
 
-function lockOff(){
-	lock = false;
-}
-
 program
 	.version(require('./package').version)
 	.usage('[type] [options]')
 	.option('--tag', '[option] - create tag with new version')
 	.option('--push', '[option] - push changes to current branch')
-	.option('--master', '[option] - merge changes to master');
+	.option('--master [branch]', '[option] - merge changes to master');
 
 ['major', 'minor', 'patch'].forEach(function(type){
 	program.option('--' + type, '[type] - increase ' + type + ' version');
@@ -36,19 +32,11 @@ program
 									.then(function(){
 										if(program.master && typeof minimist['master'] === 'string' && minimist['master']){
 											branch = minimist['master'];
-											api
-												.merge(branch)
-												.then(lockOff, lockOff);
-										}else{
-											lockOff();
+											api.merge(branch);
 										}
-									}, lockOff)
-							}else{
-								lockOff();
+									})
 							}
-						}, lockOff)
-				}else{
-					lockOff();
+						})
 				}
 			}, 0);
 		}

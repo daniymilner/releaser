@@ -71,6 +71,9 @@ exports.merge = function(branch){
 			return Git.push();
 		})
 		.then(function(){
+			return Git.checkout(branch);
+		})
+		.then(function(){
 			console.log(branch + ' merged to master');
 			deferrer.resolve();
 		})
