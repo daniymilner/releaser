@@ -38,15 +38,15 @@ program
 											branch = minimist['master'];
 											api
 												.merge(branch)
-												.then(lockOff);
+												.then(lockOff, lockOff);
 										}else{
 											lockOff();
 										}
-									})
+									}, lockOff)
 							}else{
 								lockOff();
 							}
-						})
+						}, lockOff)
 				}else{
 					lockOff();
 				}

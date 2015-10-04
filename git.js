@@ -1,0 +1,78 @@
+var exec = require('child-process-promise').exec,
+	q = require('q');
+
+exports.add = function(){
+	var deferrer = q.defer();
+	exec('git add .')
+		.then(deferrer.resolve)
+		.fail(deferrer.reject);
+	return deferrer.promise;
+};
+
+exports.commit = function(message){
+	var deferrer = q.defer();
+	exec('git commit -m "' + message + '"')
+		.then(deferrer.resolve)
+		.fail(deferrer.reject);
+	return deferrer.promise;
+};
+
+exports.addTag = function(tag){
+	var deferrer = q.defer();
+	exec('git tag ' + tag)
+		.then(deferrer.resolve)
+		.fail(deferrer.reject);
+	return deferrer.promise;
+};
+
+exports.push = function(){
+	var deferrer = q.defer();
+	exec('git push')
+		.then(deferrer.resolve)
+		.fail(deferrer.reject);
+	return deferrer.promise;
+};
+
+exports.pushTag = function(){
+	var deferrer = q.defer();
+	exec('git push origin --tags')
+		.then(deferrer.resolve)
+		.fail(deferrer.reject);
+	return deferrer.promise;
+};
+
+exports.pushAll = function(){
+	var deferrer = q.defer();
+	exports
+		.push()
+		.then(function(){
+			return exports.pushTag();
+		})
+		.then(deferrer.resolve)
+		.catch(deferrer.reject);
+	return deferrer.promise;
+};
+
+exports.checkout = function(branch){
+	var deferrer = q.defer();
+	exec('git checkout ' + branch)
+		.then(deferrer.resolve)
+		.fail(deferrer.reject);
+	return deferrer.promise;
+};
+
+exports.pull = function(branch){
+	var deferrer = q.defer();
+	exec('git pull origin ' + branch)
+		.then(deferrer.resolve)
+		.fail(deferrer.reject);
+	return deferrer.promise;
+};
+
+exports.merge = function(branch){
+	var deferrer = q.defer();
+	exec('git merge ' + branch)
+		.then(deferrer.resolve)
+		.fail(deferrer.reject);
+	return deferrer.promise;
+};

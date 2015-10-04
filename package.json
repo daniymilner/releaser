@@ -22,7 +22,7 @@
     "detect-indent": "4.0.0",
     "fs-extra": "0.24.0",
     "minimist": "1.2.0",
-    "semver": "5.0.3",
-    "simple-git": "1.10.0"
+    "q": "1.4.1",
+    "semver": "5.0.3"
   }
 }

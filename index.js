@@ -1,10 +1,9 @@
 var semver = require('semver'),
-	exec = require('child-process-promise').exec,
 	cwd = process.cwd(),
-	git = require('simple-git')(cwd),
-	fs = require('fs'),
+	Git = require('./git'),
 	indent = require('detect-indent'),
 	utils = require('./utils'),
+	q = require('q'),
 	version;
 
 exports.manifests = function(){
@@ -23,36 +22,62 @@ exports.bump = function(manifest, type){
 };
 
 exports.tag = function(){
-	return git
-		.add(exports.manifests())
-		.commit('release ' + version)
-		.addTag(version)
+	var deferrer = q.defer();
+	Git.add()
+		.then(function(){
+			return Git.commit('release ' + version);
+		})
+		.then(function(){
+			return Git.addTag(version);
+		})
 		.then(function(){
 			console.log('[' + version + '] created');
+			deferrer.resolve();
 		})
+		.catch(function(err){
+			console.log(err);
+			console.log('[' + version + '] creating failed');
+			deferrer.reject(err);
+		});
+	return deferrer.promise;
 };
 
 exports.push = function(){
-	return exec('git push')
+	var deferrer = q.defer();
+	Git.pushAll()
 		.then(function(){
-			return git.pushTags('origin')
+			console.log('[' + version + '] push');
+			deferrer.resolve();
 		})
-		.then(function(){
-			console.log('[' + version + '] pushed');
+		.catch(function(err){
+			console.log(err);
+			console.log('[' + version + '] push failed');
+			deferrer.reject(err);
 		});
+	return deferrer.promise;
 };
 
 exports.merge = function(branch){
-	return git.checkout('master')
-		.pull('origin', 'master')
+	var deferrer = q.defer();
+	Git
+		.checkout('master')
 		.then(function(){
-			return exec('git merge ' + branch)
-				.then(function(){
-					return git
-						.push('origin', 'master')
-						.checkout(branch);
-				}, function(err){
-					console.log(err);
-				})
+			return Git.pull('master');
+		})
+		.then(function(){
+			return Git.merge(branch)
+		})
+		.then(function(){
+			return Git.push();
+		})
+		.then(function(){
+			console.log(branch + ' merged to master');
+			deferrer.resolve();
+		})
+		.catch(function(err){
+			console.log(err);
+			console.log(branch + ' merge to master failed');
+			deferrer.reject(err);
 		});
+	return deferrer.promise;
 };
