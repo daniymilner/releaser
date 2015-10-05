@@ -1,6 +1,6 @@
 var semver = require('semver'),
 	cwd = process.cwd(),
-	Git = require('./git'),
+	Git = require('./api'),
 	indent = require('detect-indent'),
 	utils = require('./utils'),
 	q = require('q'),
