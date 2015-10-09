@@ -46,6 +46,9 @@ exports.push = function(branch){
 	var deferrer = q.defer();
 	Git.push(branch)
 		.then(function(){
+			return Git.pushTag(version);
+		})
+		.then(function(){
 			console.log('[' + version + '] push');
 			deferrer.resolve();
 		})

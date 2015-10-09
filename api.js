@@ -26,7 +26,8 @@ exports.addTag = function(tag){
 };
 
 exports.push = function(branch){
-	var deferrer = q.defer(), command = 'git push';
+	var deferrer = q.defer(),
+		command = 'git push';
 	if(branch){
 		command += ' origin ' + branch;
 	}
@@ -36,9 +37,15 @@ exports.push = function(branch){
 	return deferrer.promise;
 };
 
-exports.pushTag = function(){
-	var deferrer = q.defer();
-	exec('git push origin --tags')
+exports.pushTag = function(tag){
+	var deferrer = q.defer(),
+		command = 'git push origin ';
+	if(tag){
+		command += tag;
+	}else{
+		command += '--tags'
+	}
+	exec(command)
 		.then(deferrer.resolve)
 		.fail(deferrer.reject);
 	return deferrer.promise;
