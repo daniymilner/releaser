@@ -30,7 +30,6 @@ program
 						.then(function(){
 							if(program.branch && typeof minimist['branch'] === 'string' && minimist['branch'] && program.push){
 								branch = minimist['branch'];
-								console.log(branch);
 								api.push(branch)
 									.then(function(){
 										api.merge(branch);
