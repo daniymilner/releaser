@@ -32,7 +32,9 @@ program
 								branch = minimist['branch'];
 								api.push(branch)
 									.then(function(){
-										api.merge(branch);
+										if(program.master){
+											api.merge(branch);
+										}
 									})
 							}
 						})
