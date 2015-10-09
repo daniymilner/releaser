@@ -8,10 +8,11 @@ var program = require('commander'),
 
 program
 	.version(require('./package').version)
-	.usage('[type] [options]')
+	.usage('[type] [branch] [options]')
+	.option('--branch [name]', '[branch] - set local branch name')
 	.option('--tag', '[option] - create tag with new version')
 	.option('--push', '[option] - push changes to current branch')
-	.option('--master [branch]', '[option] - merge changes to master');
+	.option('--master', '[option] - merge changes to master');
 
 ['major', 'minor', 'patch'].forEach(function(type){
 	program.option('--' + type, '[type] - increase ' + type + ' version');
@@ -27,13 +28,11 @@ program
 				if(program.tag){
 					api.tag()
 						.then(function(){
-							if(program.push){
-								api.push()
+							if(program.branch && typeof minimist['branch'] === 'string' && minimist['branch'] && program.push){
+								branch = minimist['branch'];
+								api.push(branch)
 									.then(function(){
-										if(program.master && typeof minimist['master'] === 'string' && minimist['master']){
-											branch = minimist['master'];
-											api.merge(branch);
-										}
+										api.merge(branch);
 									})
 							}
 						})
