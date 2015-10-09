@@ -22,22 +22,22 @@ program
 			lock = true;
 
 			setTimeout(function(){
-				//api.manifests().forEach(function(manifest){
-				//	api.bump(manifest, type);
-				//});
-				//if(program.tag){
-				//	api.tag()
-				//		.then(function(){
+				api.manifests().forEach(function(manifest){
+					api.bump(manifest, type);
+				});
+				if(program.tag){
+					api.tag()
+						.then(function(){
 							if(program.branch && typeof minimist['branch'] === 'string' && minimist['branch'] && program.push){
 								branch = minimist['branch'];
 								console.log(branch);
-								//api.push(branch)
-								//	.then(function(){
-								//		api.merge(branch);
-								//	})
+								api.push(branch)
+									.then(function(){
+										api.merge(branch);
+									})
 							}
-						//})
-				//}
+						})
+				}
 			}, 0);
 		}
 	});
