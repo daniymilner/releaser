@@ -10,15 +10,19 @@ npm i -g git+ssh://git@github.com:daniymilner/releaser.git
 ## Usage
 
 ```
-release [type] [options]
+release [type] [branch] [options]
 ```
 
 ### Types
 
  * `--patch`, `--minor`, `--major` - Increase specific version
 
+### Branch
+
+ * `--branch [name]` - Set local branch name
+
 ### Options
 
  * `--tag` - Create git tag
  * `--push` - Push to remote repo
- * `--master [branch]` - Merge changes to master from [branch]
+ * `--master` - Merge changes to master
