@@ -26,8 +26,11 @@ exports.addTag = function(tag){
 };
 
 exports.push = function(branch){
-	var deferrer = q.defer();
-	exec('git push origin ' + branch)
+	var deferrer = q.defer(), command = 'git push';
+	if(branch){
+		command += ' origin ' + branch;
+	}
+	exec(command)
 		.then(deferrer.resolve)
 		.fail(deferrer.reject);
 	return deferrer.promise;

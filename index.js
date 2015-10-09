@@ -42,9 +42,9 @@ exports.tag = function(){
 	return deferrer.promise;
 };
 
-exports.push = function(){
+exports.push = function(branch){
 	var deferrer = q.defer();
-	Git.pushAll()
+	Git.push(branch)
 		.then(function(){
 			console.log('[' + version + '] push');
 			deferrer.resolve();
