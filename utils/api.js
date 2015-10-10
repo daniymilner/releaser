@@ -1,24 +1,25 @@
 var semver = require('semver'),
 	cwd = process.cwd(),
-	Git = require('./api'),
 	indent = require('detect-indent'),
-	utils = require('./utils'),
+	utils = require('../utils'),
+	filesystem = utils.filesystem,
+	Git = utils.git,
 	q = require('q'),
 	version;
 
 exports.manifests = function(){
 	return ['package.json', 'bower.json'].filter(function(manifest){
-		return utils.exists(cwd + '/' + manifest);
+		return filesystem.exists(cwd + '/' + manifest);
 	});
 };
 
 exports.bump = function(manifest, type){
 	var pkg = cwd + '/' + manifest,
-		current = utils.readJSON(pkg),
+		current = filesystem.readJSON(pkg),
 		usedIndent;
 	version = current.version = semver.inc(current.version, type);
-	usedIndent = indent(utils.readFileSync(pkg)) || '  ';
-	utils.writeJSON(pkg, current, usedIndent.indent);
+	usedIndent = indent(filesystem.readFileSync(pkg)) || '  ';
+	filesystem.writeJSON(pkg, current, usedIndent.indent);
 };
 
 exports.tag = function(){

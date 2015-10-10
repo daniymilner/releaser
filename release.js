@@ -2,7 +2,7 @@
 
 var program = require('commander'),
 	minimist = require('minimist')(process.argv.slice(2)),
-	api = require('./index'),
+	api = require('./utils').api,
 	lock = false,
 	branch;
 
@@ -21,25 +21,23 @@ program
 		if(!lock){
 			lock = true;
 
-			setTimeout(function(){
-				api.manifests().forEach(function(manifest){
-					api.bump(manifest, type);
-				});
-				if(program.tag){
-					api.tag()
-						.then(function(){
-							if(program.branch && typeof minimist['branch'] === 'string' && minimist['branch'] && program.push){
-								branch = minimist['branch'];
-								api.push(branch)
-									.then(function(){
-										if(program.master){
-											api.merge(branch);
-										}
-									})
-							}
-						})
-				}
-			}, 0);
+			api.manifests().forEach(function(manifest){
+				api.bump(manifest, type);
+			});
+			if(program.tag){
+				api.tag()
+					.then(function(){
+						if(program.branch && typeof minimist['branch'] === 'string' && minimist['branch'] && program.push){
+							branch = minimist['branch'];
+							api.push(branch)
+								.then(function(){
+									if(program.master){
+										api.merge(branch);
+									}
+								})
+						}
+					})
+			}
 		}
 	});
 });
