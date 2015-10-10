@@ -1,9 +1,8 @@
 var semver = require('semver'),
 	cwd = process.cwd(),
 	indent = require('detect-indent'),
-	utils = require('../utils'),
-	filesystem = utils.filesystem,
-	Git = utils.git,
+	filesystem = require('./filesystem'),
+	Git = require('./git-api'),
 	q = require('q'),
 	version;
 
