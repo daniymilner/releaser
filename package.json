@@ -1,5 +1,5 @@
 {
-  "name": "releaser",
+  "name": "release-maker",
   "version": "1.2.0",
   "description": "Module for release project",
   "main": "index.js",
