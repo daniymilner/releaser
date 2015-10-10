@@ -4,7 +4,7 @@ Module for release project. This package works with bower.json and package.json
 ## Install
 
 ```
-npm i -g git+ssh://git@github.com:daniymilner/releaser.git#1.2.0
+npm i -g release-maker
 ```
 
 ## Usage
