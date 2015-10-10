@@ -2,7 +2,7 @@
   "name": "release-maker",
   "version": "1.2.1",
   "description": "Module for release project",
-  "main": "index.js",
+  "main": "release.js",
   "scripts": {
     "test": "find ./test -name '*.test.js' | xargs mocha -R spec"
   },
