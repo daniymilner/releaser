@@ -3,6 +3,9 @@
   "version": "1.1.1",
   "description": "Module for release project",
   "main": "index.js",
+  "scripts": {
+    "test": "find ./test -name '*.test.js' | xargs mocha -R spec"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daniymilner/releaser.git"
@@ -24,5 +27,9 @@
     "minimist": "1.2.0",
     "q": "1.4.1",
     "semver": "5.0.3"
+  },
+  "devDependencies": {
+    "chai": "3.3.0",
+    "rewire": "2.3.4"
   }
 }

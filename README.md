@@ -4,7 +4,7 @@ Module for release project. This package works with bower.json and package.json
 ## Install
 
 ```
-npm i -g git+ssh://git@github.com:daniymilner/releaser.git
+npm i -g git+ssh://git@github.com:daniymilner/releaser.git#1.2.0
 ```
 
 ## Usage
@@ -13,16 +13,22 @@ npm i -g git+ssh://git@github.com:daniymilner/releaser.git
 release [type] [branch] [options]
 ```
 
-### Types
+#### Types
 
  * `--patch`, `--minor`, `--major` - Increase specific version
 
-### Branch
+#### Branch
 
  * `--branch [name]` - Set local branch name
 
-### Options
+#### Options
 
  * `--tag` - Create git tag
  * `--push` - Push to remote repo
  * `--master` - Merge changes to master
+
+## Tests
+
+```
+npm run test
+```
