@@ -31,4 +31,5 @@ release [type] [branch] [options]
 
 ```
 npm run test
+npm run cover
 ```

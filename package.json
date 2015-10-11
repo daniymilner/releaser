@@ -4,7 +4,8 @@
   "description": "Module for release project",
   "main": "release.js",
   "scripts": {
-    "test": "find ./test -name '*.test.js' | xargs mocha -R spec"
+    "test": "find ./test -name '*.test.js' | xargs mocha -R spec",
+    "cover": "istanbul cover ./node_modules/mocha/bin/_mocha -- -R spec test/**/*"
   },
   "repository": {
     "type": "git",
@@ -20,16 +21,18 @@
   },
   "homepage": "https://github.com/daniymilner/releaser#readme",
   "dependencies": {
-    "child-process-promise": "1.1.0",
-    "commander": "2.8.1",
-    "detect-indent": "4.0.0",
-    "fs-extra": "0.24.0",
-    "minimist": "1.2.0",
-    "q": "1.4.1",
-    "semver": "5.0.3"
+    "child-process-promise": "~1.1.0",
+    "commander": "~2.8.1",
+    "detect-indent": "~4.0.0",
+    "fs-extra": "~0.24.0",
+    "minimist": "~1.2.0",
+    "q": "~1.4.1",
+    "semver": "~5.0.3"
   },
   "devDependencies": {
-    "chai": "3.3.0",
-    "rewire": "2.3.4"
+    "chai": "~3.3.0",
+    "istanbul": "~0.3.22",
+    "mocha": "~2.3.3",
+    "rewire": "~2.3.4"
   }
 }
