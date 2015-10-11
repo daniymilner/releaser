@@ -1,3 +1,0 @@
-version: 1.0.{build}
-skip_non_tags: true
-build: off
