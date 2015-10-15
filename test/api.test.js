@@ -1,6 +1,7 @@
 var rewire = require("rewire"),
 	expect = require('chai').expect,
-	q = require('q');
+	q = require('q'),
+	filesystem = require('../utils/filesystem');
 
 describe('API', function(){
 	var api = rewire('../utils/api.js');
@@ -11,6 +12,30 @@ describe('API', function(){
 		});
 		var data = api.manifests();
 		expect(data).to.have.length(2);
+	});
+
+	describe('Bump', function(){
+		var jsonPath = './test/test.json', version = '0.0.2';
+		before(function(){
+			filesystem.writeJSON(jsonPath, {version: '0.0.1'});
+			api.__set__('semver.inc', function(){
+				return version;
+			});
+		});
+		it('bump with indent', function(){
+			api.__set__('indent', function(){
+				return {indent: '\t'}
+			});
+			api.bump('test/test.json');
+			var json = filesystem.readJSON(jsonPath);
+			expect(json.version).to.be.equal(version);
+		});
+		it('bump without indent', function(){
+			api.__set__('indent', function(){});
+			api.bump('test/test.json');
+			var json = filesystem.readJSON('./test/test.json');
+			expect(json.version).to.be.equal(version);
+		});
 	});
 
 	describe('Tag function', function(){
