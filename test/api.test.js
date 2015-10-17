@@ -6,6 +6,11 @@ var rewire = require("rewire"),
 describe('API', function(){
 	var api = rewire('../utils/api.js');
 
+	beforeEach(function(){
+		api.__set__('logger.error', function(){});
+		api.__set__('logger.info', function(){});
+	});
+
 	it('manifests', function(){
 		api.__set__('filesystem.exists', function(){
 			return true;

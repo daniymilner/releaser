@@ -27,7 +27,8 @@
     "fs-extra": "~0.24.0",
     "minimist": "~1.2.0",
     "q": "~1.4.1",
-    "semver": "~5.0.3"
+    "semver": "~5.0.3",
+    "tracer": "~0.8.0"
   },
   "devDependencies": {
     "chai": "~3.3.0",

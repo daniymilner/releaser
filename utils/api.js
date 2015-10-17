@@ -4,6 +4,9 @@ var semver = require('semver'),
 	filesystem = require('./filesystem'),
 	Git = require('./git-api'),
 	q = require('q'),
+	logger = require('tracer').colorConsole({
+		format: "{{message}}"
+	}),
 	version;
 
 exports.manifests = function(){
@@ -31,12 +34,12 @@ exports.tag = function(){
 			return Git.addTag(version);
 		})
 		.then(function(){
-			console.log('[' + version + '] created');
+			logger.info('[' + version + '] created');
 			deferrer.resolve();
 		})
 		.catch(function(err){
-			console.log(err);
-			console.log('[' + version + '] creating failed');
+			logger.error(err);
+			logger.error('[' + version + '] creating failed');
 			deferrer.reject(err);
 		});
 	return deferrer.promise;
@@ -49,12 +52,12 @@ exports.push = function(branch){
 			return Git.pushTag(version);
 		})
 		.then(function(){
-			console.log('[' + version + '] push');
+			logger.info('[' + version + '] push');
 			deferrer.resolve();
 		})
 		.catch(function(err){
-			console.log(err);
-			console.log('[' + version + '] push failed');
+			logger.error(err);
+			logger.error('[' + version + '] push failed');
 			deferrer.reject(err);
 		});
 	return deferrer.promise;
@@ -77,12 +80,12 @@ exports.merge = function(branch){
 			return Git.checkout(branch);
 		})
 		.then(function(){
-			console.log(branch + ' merged to master');
+			logger.info(branch + ' merged to master');
 			deferrer.resolve();
 		})
 		.catch(function(err){
-			console.log(err);
-			console.log(branch + ' merge to master failed');
+			logger.error(err);
+			logger.error(branch + ' merge to master failed');
 			deferrer.reject(err);
 		});
 	return deferrer.promise;
