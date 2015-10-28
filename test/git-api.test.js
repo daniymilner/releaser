@@ -1,6 +1,10 @@
 var rewire = require("rewire"),
-	expect = require('chai').expect,
-	q = require('q');
+	chai = require('chai'),
+	q = require('q'),
+	expect = chai.expect,
+	chaiAsPromised = require("chai-as-promised");
+
+chai.use(chaiAsPromised);
 
 describe('Git API', function(){
 	var gitApi,
@@ -20,152 +24,68 @@ describe('Git API', function(){
 		});
 	});
 
-	it('add', function(done){
-		gitApi
-			.add()
-			.then(function(res){
-				expect(res).to.be.equal(gitApi.commands.add);
-				done();
-			})
+	it('add', function(){
+		return expect(gitApi.add()).eventually.equal(gitApi.commands.add);
 	});
 
-	it('commit empty message', function(done){
-		gitApi
-			.commit()
-			.catch(function(err){
-				expect(err).not.to.be.null;
-				expect(err.message).to.be.equal(gitApi.messages.emptyMessage);
-				done();
-			})
+	it('commit empty message', function(){
+		return expect(gitApi.commit()).to.be.rejectedWith(gitApi.messages.emptyMessage);
 	});
 
-	it('commit valid message', function(done){
+	it('commit valid message', function(){
 		var message = 'some commit';
-		gitApi
-			.commit(message)
-			.then(function(res){
-				expect(res).to.be.equal(gitApi.commands.getCommit(message));
-				done();
-			})
+		return expect(gitApi.commit(message)).eventually.equal(gitApi.commands.getCommit(message));
 	});
 
-	it('add empty tag', function(done){
-		gitApi
-			.addTag()
-			.catch(function(err){
-				expect(err).not.to.be.null;
-				expect(err.message).to.be.equal(gitApi.messages.emptyTag);
-				done();
-			})
+	it('add empty tag', function(){
+		return expect(gitApi.addTag()).to.be.rejectedWith(gitApi.messages.emptyTag);
 	});
 
-	it('add valid tag', function(done){
-		gitApi
-			.addTag(tag)
-			.then(function(res){
-				expect(res).to.be.equal(gitApi.commands.getTag(tag));
-				done();
-			})
+	it('add valid tag', function(){
+		return expect(gitApi.addTag(tag)).eventually.equal(gitApi.commands.getTag(tag));
 	});
 
-	it('push branch', function(done){
-		gitApi
-			.push(branch)
-			.then(function(res){
-				expect(res).to.be.equal(gitApi.commands.getPush(branch));
-				done();
-			})
+	it('push branch', function(){
+		return expect(gitApi.push(branch)).eventually.equal(gitApi.commands.getPush(branch));
 	});
 
-	it('push all branches', function(done){
-		gitApi
-			.push()
-			.then(function(res){
-				expect(res).to.be.equal(gitApi.commands.push);
-				done();
-			})
+	it('push all branches', function(){
+		return expect(gitApi.push()).eventually.equal(gitApi.commands.push);
 	});
 
-	it('push tag', function(done){
-		gitApi
-			.pushTag(tag)
-			.then(function(res){
-				expect(res).to.be.equal(gitApi.commands.getPush(tag));
-				done();
-			})
+	it('push tag', function(){
+		return expect(gitApi.pushTag(tag)).eventually.equal(gitApi.commands.getPush(tag));
 	});
 
-	it('push all tags', function(done){
-		gitApi
-			.pushTag()
-			.then(function(res){
-				expect(res).to.be.equal(gitApi.commands.getPush(gitApi.commands.tags));
-				done();
-			})
+	it('push all tags', function(){
+		return expect(gitApi.pushTag()).eventually.equal(gitApi.commands.getPush(gitApi.commands.tags));
 	});
 
-	it('push all branches and tags', function(done){
-		gitApi
-			.pushAll()
-			.then(function(){
-				done();
-			})
+	it('push all branches and tags', function(){
+		return expect(gitApi.pushAll()).be.fulfilled;
 	});
 
-	it('checkout empty branch', function(done){
-		gitApi
-			.checkout()
-			.catch(function(err){
-				expect(err).not.to.be.null;
-				expect(err.message).to.be.equal(gitApi.messages.emptyBranch);
-				done();
-			})
+	it('checkout empty branch', function(){
+		return expect(gitApi.checkout()).to.be.rejectedWith(gitApi.messages.emptyBranch);
 	});
 
-	it('checkout valid branch', function(done){
-		gitApi
-			.checkout(branch)
-			.then(function(res){
-				expect(res).to.be.equal(gitApi.commands.getCheckout(branch));
-				done();
-			})
+	it('checkout valid branch', function(){
+		return expect(gitApi.checkout(branch)).eventually.equal(gitApi.commands.getCheckout(branch));
 	});
 
-	it('pull empty branch', function(done){
-		gitApi
-			.pull()
-			.catch(function(err){
-				expect(err).not.to.be.null;
-				expect(err.message).to.be.equal(gitApi.messages.emptyBranch);
-				done();
-			})
+	it('pull empty branch', function(){
+		return expect(gitApi.pull()).to.be.rejectedWith(gitApi.messages.emptyBranch);
 	});
 
-	it('pull valid branch', function(done){
-		gitApi
-			.pull(branch)
-			.then(function(res){
-				expect(res).to.be.equal(gitApi.commands.getPull(branch));
-				done();
-			})
+	it('pull valid branch', function(){
+		return expect(gitApi.pull(branch)).eventually.equal(gitApi.commands.getPull(branch));
 	});
 
-	it('merge empty branch', function(done){
-		gitApi
-			.merge()
-			.catch(function(err){
-				expect(err).not.to.be.null;
-				expect(err.message).to.be.equal(gitApi.messages.emptyBranch);
-				done();
-			})
+	it('merge empty branch', function(){
+		return expect(gitApi.merge()).to.be.rejectedWith(gitApi.messages.emptyBranch);
 	});
 
-	it('merge valid branch', function(done){
-		gitApi
-			.merge(branch)
-			.then(function(res){
-				expect(res).to.be.equal(gitApi.commands.getMerge(branch));
-				done();
-			})
+	it('merge valid branch', function(){
+		return expect(gitApi.merge(branch)).eventually.equal(gitApi.commands.getMerge(branch));
 	});
 });

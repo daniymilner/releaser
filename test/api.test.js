@@ -1,7 +1,11 @@
 var rewire = require("rewire"),
-	expect = require('chai').expect,
+	chai = require('chai'),
 	q = require('q'),
-	filesystem = require('../utils/filesystem');
+	filesystem = require('../utils/filesystem'),
+	expect = chai.expect,
+	chaiAsPromised = require("chai-as-promised");
+
+chai.use(chaiAsPromised);
 
 describe('API', function(){
 	var api = rewire('../utils/api.js');
@@ -57,29 +61,21 @@ describe('API', function(){
 			});
 			api.__set__('version', '0.0.0');
 		});
-		it('check success promise', function(done){
+		it('check success promise', function(){
 			api.__set__('Git.addTag', function(){
 				var deferrer = q.defer();
 				deferrer.resolve();
 				return deferrer.promise;
 			});
-			api
-				.tag()
-				.then(function(){
-					done();
-				})
+			return expect(api.tag()).be.fulfilled;
 		});
-		it('check error promise', function(done){
+		it('check error promise', function(){
 			api.__set__('Git.addTag', function(){
 				var deferrer = q.defer();
 				deferrer.reject(new Error());
 				return deferrer.promise;
 			});
-			api
-				.tag()
-				.catch(function(){
-					done();
-				})
+			return expect(api.tag()).to.be.rejected;
 		});
 	});
 
@@ -92,29 +88,21 @@ describe('API', function(){
 			});
 			api.__set__('version', '0.0.0');
 		});
-		it('check success promise', function(done){
+		it('check success promise', function(){
 			api.__set__('Git.pushTag', function(){
 				var deferrer = q.defer();
 				deferrer.resolve();
 				return deferrer.promise;
 			});
-			api
-				.push()
-				.then(function(){
-					done();
-				})
+			return expect(api.push()).be.fulfilled;
 		});
-		it('check error promise', function(done){
+		it('check error promise', function(){
 			api.__set__('Git.pushTag', function(){
 				var deferrer = q.defer();
 				deferrer.reject(new Error());
 				return deferrer.promise;
 			});
-			api
-				.push()
-				.catch(function(){
-					done();
-				})
+			return expect(api.push()).to.be.rejected;
 		});
 	});
 
@@ -137,29 +125,21 @@ describe('API', function(){
 			});
 			api.__set__('version', '0.0.0');
 		});
-		it('check success promise', function(done){
+		it('check success promise', function(){
 			api.__set__('Git.push', function(){
 				var deferrer = q.defer();
 				deferrer.resolve();
 				return deferrer.promise;
 			});
-			api
-				.merge()
-				.then(function(){
-					done();
-				})
+			return expect(api.merge()).be.fulfilled;
 		});
-		it('check error promise', function(done){
+		it('check error promise', function(){
 			api.__set__('Git.push', function(){
 				var deferrer = q.defer();
 				deferrer.reject(new Error());
 				return deferrer.promise;
 			});
-			api
-				.merge()
-				.catch(function(){
-					done();
-				})
+			return expect(api.merge()).to.be.rejected;
 		});
 	});
 });

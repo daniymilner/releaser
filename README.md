@@ -1,7 +1,7 @@
 # Releaser
 Module for release project. This package works with bower.json and package.json
 
-[![Build Status](https://travis-ci.org/daniymilner/releaser.svg)](https://travis-ci.org/daniymilner/releaser)
+[![Build Status](https://travis-ci.org/daniymilner/releaser.svg?branch=master)](https://travis-ci.org/daniymilner/releaser)
 
 ## Install
 
