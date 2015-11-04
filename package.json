@@ -1,6 +1,6 @@
 {
   "name": "release-maker",
-  "version": "1.2.8",
+  "version": "1.3.0",
   "description": "Module for release project",
   "main": "release.js",
   "scripts": {
