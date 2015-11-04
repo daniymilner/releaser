@@ -16,7 +16,7 @@ program
 	.option('--tag', '[option] - create tag with new version')
 	.option('--push', '[option] - push changes to current branch')
 	.option('--master', '[option] - merge changes to master')
-	.option('--full', '[option] - "--tag --push --master"');
+	.option('--full', '[option] - --tag --push --master');
 
 ['major', 'minor', 'patch'].forEach(function(type){
 	program.option('--' + type, '[type] - increase ' + type + ' version');
@@ -53,7 +53,7 @@ program
 						}
 					});
 				}else{
-					logger.error('expect parameter --branch [name]')
+					logger.error('expected parameter --branch [name]')
 				}
 			}, 0);
 		}
