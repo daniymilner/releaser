@@ -142,4 +142,35 @@ describe('API', function(){
 			return expect(api.merge()).to.be.rejected;
 		});
 	});
+
+	describe('Checkout function', function(){
+		beforeEach(function(){
+			api.__set__('Git.checkout', function(){
+				var deferrer = q.defer();
+				deferrer.resolve();
+				return deferrer.promise;
+			});
+			api.__set__('Git.pull', function(){
+				var deferrer = q.defer();
+				deferrer.resolve();
+				return deferrer.promise;
+			});
+		});
+		it('check success promise', function(){
+			api.__set__('Git.checkout', function(){
+				var deferrer = q.defer();
+				deferrer.resolve();
+				return deferrer.promise;
+			});
+			return expect(api.checkout()).be.fulfilled;
+		});
+		it('check error promise', function(){
+			api.__set__('Git.checkout', function(){
+				var deferrer = q.defer();
+				deferrer.reject(new Error());
+				return deferrer.promise;
+			});
+			return expect(api.checkout()).to.be.rejected;
+		});
+	});
 });

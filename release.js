@@ -25,19 +25,21 @@ program
 				api.manifests().forEach(function(manifest){
 					api.bump(manifest, type);
 				});
-				if(program.tag){
-					api.tag()
-						.then(function(){
-							if(program.branch && typeof minimist['branch'] === 'string' && minimist['branch'] && program.push){
-								branch = minimist['branch'];
-								api.push(branch)
-									.then(function(){
+				if(program.branch && typeof minimist['branch'] === 'string' && minimist['branch']){
+					branch = minimist['branch'];
+					api.checkout(branch).then(function(){
+						if(program.tag){
+							api.tag().then(function(){
+								if(program.push){
+									api.push(branch).then(function(){
 										if(program.master){
 											api.merge(branch);
 										}
 									})
-							}
-						})
+								}
+							})
+						}
+					});
 				}
 			}, 0);
 		}

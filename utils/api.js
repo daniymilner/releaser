@@ -90,3 +90,21 @@ exports.merge = function(branch){
 		});
 	return deferrer.promise;
 };
+
+exports.checkout = function(branch){
+	var deferrer = q.defer();
+	Git
+		.checkout(branch)
+		.then(function(){
+			return Git.pull(branch);
+		})
+		.then(function(){
+			deferrer.resolve();
+		})
+		.catch(function(err){
+			logger.error(err);
+			logger.error('checkout to ' + branch + ' failed');
+			deferrer.reject(err);
+		});
+	return deferrer.promise;
+};
