@@ -10,10 +10,16 @@ var semver = require('semver'),
 	version;
 
 exports.manifests = function(data){
-	var filesList = ['package.json', 'bower.json'];
+	var filesList = ['package.json', 'bower.json'],
+		files;
 
 	if(data && typeof data === 'string'){
-		filesList = filesList.concat(data.split(','));
+		files = data
+			.split(',')
+			.filter(function(item){
+				return item.indexOf('.json') !== -1;
+			});
+		filesList = filesList.concat(files);
 	}
 	console.log(filesList);
 	return filesList.filter(function(manifest){
