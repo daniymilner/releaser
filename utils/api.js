@@ -9,13 +9,13 @@ var semver = require('semver'),
 	}),
 	version;
 
-exports.manifests = function(files){
+exports.manifests = function(data){
 	var filesList = ['package.json', 'bower.json'];
 
-	if(files){
-		console.log(files);
+	if(data && typeof data === 'string'){
+		filesList = filesList.concat(data.split(','));
 	}
-
+	console.log(filesList);
 	return filesList.filter(function(manifest){
 		return filesystem.exists(cwd + '/' + manifest);
 	});
