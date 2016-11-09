@@ -7,7 +7,7 @@ var program = require('commander'),
 	logger = require('tracer').colorConsole({
 		format: "{{message}}"
 	}),
-	branch;
+	branch, files;
 
 program
 	.version(require('./package').version)
@@ -27,7 +27,9 @@ program
 			lock = true;
 
 			setTimeout(function(){
-				api.manifests(program.files).forEach(function(manifest){
+				files = program.files ? minimist['files'] : '';
+
+				api.manifests(files).forEach(function(manifest){
 					api.bump(manifest, type);
 				});
 				if(program.branch && typeof minimist['branch'] === 'string' && minimist['branch']){

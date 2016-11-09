@@ -10,8 +10,13 @@ var semver = require('semver'),
 	version;
 
 exports.manifests = function(files){
-	console.log(files);
-	return ['package.json', 'bower.json'].filter(function(manifest){
+	var filesList = ['package.json', 'bower.json'];
+
+	if(files){
+		console.log(files);
+	}
+
+	return filesList.filter(function(manifest){
 		return filesystem.exists(cwd + '/' + manifest);
 	});
 };
