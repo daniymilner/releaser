@@ -29,6 +29,7 @@ release [type] [branch] [options]
  * `--push` - Push to remote repo
  * `--master` - Merge changes to master
  * `--full` - The same as the command `--tag --push --master`
+ * `--files` - Files in which must be saved a version
 
 ## Tests
 

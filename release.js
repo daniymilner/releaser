@@ -17,7 +17,7 @@ program
 	.option('--push', '[option] - push changes to current branch')
 	.option('--master', '[option] - merge changes to master')
 	.option('--full', '[option] - --tag --push --master')
-	.option('--files', '[option] - files in which must be saved version');
+	.option('--files', '[option] - files in which must be saved a version');
 
 ['major', 'minor', 'patch'].forEach(function(type){
 	program.option('--' + type, '[type] - increase ' + type + ' version');

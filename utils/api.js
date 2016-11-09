@@ -21,7 +21,7 @@ exports.manifests = function(data){
 			});
 		filesList = filesList.concat(files);
 	}
-	console.log(filesList);
+
 	return filesList.filter(function(manifest){
 		return filesystem.exists(cwd + '/' + manifest);
 	});
